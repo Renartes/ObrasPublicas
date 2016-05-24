@@ -85,3 +85,26 @@ Then(~'^o sistema não irá cadastrar o político de nome "([^"]*)" e CPF "([^"]
     politicos = Politico.findAllByCpfAndName(cpf,politicoName)
     assert politicos.size() == 1
 }
+
+
+
+
+Given(~'^que o usuário esta na tela de atualizar político visualizando o  político “([^"]*” com cpf “([^"]*)"$” $'){
+    String politicoName, cpf ->
+    Politico politico = Politico.findByCpfAndName(cpf,politicoName)
+    assert politico != null
+}
+When (~'^tentar atualizar os dados do político “([^"]*)” com cpf “([^"]*)”$'){
+    String politicoName, cpf ->                        
+    TestDataAndOperations.createPolitico(politicoName,cpf)
+}
+
+Then (~'^eu recebo a mensagem de confirmação da atualizção $'){
+    String politicoName,cfp ->
+    politicos = Politico.findAllByCpfAndName(cpf,politicoName)
+}
+And (~'^Consigo ver as informações do político cadastrado $'){
+    String politicoName, cpf ->
+    Politico politico = Politico.findByName(politicoName)
+        assert TestDataAndOperations.compatibleTo(politico, politicoName,cpf)   
+}

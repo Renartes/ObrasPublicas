@@ -137,3 +137,25 @@ Then(~'^eu vejo uma mensagem de confirmação And passo visualizar na minha rede
 	String nomeObra ->
 	assert SNSToll.consult(nomeObra)
 }
+
+//Scenario: verificar a situação de uma obra 
+//Given que eu esteja logado no sistema 
+//And  exista cadastrada uma obra como o nome “Praça do arsenal” 
+//	When eu solicitar a situação da obra “Praça do arsenal”
+//Then  o sistema retorna a situação da obra 
+
+
+Given(~'^que existe uma obra com nome "([^"]*)" cadastrada no sistema$'){
+	String nomeObra ->
+	Obra obra = Obra.findByName(nomeObra)
+	assert obra == null
+}
+
+When(~'^eu solicitar a situação de termino da obra "([^"]*)" que estáem dia$'){
+	String nomeObra ->                        
+	TestDataAndOperations.getSituacaoObra(nomeObra)
+}
+Then(~'^o sistema retorna que a obra  "([^"]*)" está em dia$'){
+	String nomeObra ->
+	assert TestDataAndOperations.getSituacaoObra(nomeObra)
+}
